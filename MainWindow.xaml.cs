@@ -23,8 +23,8 @@ namespace WpfLecteurAudio
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool mediaPlayerIsPlaying = false;
-        private bool userIsDraggingSlider = false;
+        private bool enTrainDeJouer = false;
+        private bool modifSlider = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -35,11 +35,11 @@ namespace WpfLecteurAudio
         }
 		private void timer_Tick(object sender, EventArgs e)
 		{
-			if ((mePlayer.Source != null) && (mePlayer.NaturalDuration.HasTimeSpan) && (!userIsDraggingSlider))
+			if ((monLecteur.Source != null) && (monLecteur.NaturalDuration.HasTimeSpan) && (!modifSlider))
 			{
-				sliProgress.Minimum = 0;
-				sliProgress.Maximum = mePlayer.NaturalDuration.TimeSpan.TotalSeconds;
-				sliProgress.Value = mePlayer.Position.TotalSeconds;
+				sliderAvance.Minimum = 0;
+				sliderAvance.Maximum = monLecteur.NaturalDuration.TimeSpan.TotalSeconds;
+				sliderAvance.Value = monLecteur.Position.TotalSeconds;
 			}
 		}
 
@@ -50,63 +50,71 @@ namespace WpfLecteurAudio
 
 		private void Open_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
+			string chemin = "";
 			OpenFileDialog openFileDialog = new OpenFileDialog();
 			openFileDialog.Filter = "Media files (*.mp3;*.mpg;*.mpeg)|*.mp3;*.mpg;*.mpeg|All files (*.*)|*.*";
 			if (openFileDialog.ShowDialog() == true)
-				mePlayer.Source = new Uri(openFileDialog.FileName);
+			{
+				chemin = Convert.ToString(new Uri(openFileDialog.FileName));
+				string[] decoupe = chemin.Split('/');
+
+				lblChemin.Content = decoupe[decoupe.Length-1];
+
+				monLecteur.Source = new Uri(openFileDialog.FileName);
+			}
 		}
 
 		private void Play_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = (mePlayer != null) && (mePlayer.Source != null);
+			e.CanExecute = (monLecteur != null) && (monLecteur.Source != null);
 		}
 
 		private void Play_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			mePlayer.Play();
-			mediaPlayerIsPlaying = true;
+			monLecteur.Play();
+			enTrainDeJouer = true;
 		}
 
 		private void Pause_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = mediaPlayerIsPlaying;
+			e.CanExecute = enTrainDeJouer;
 		}
 
 		private void Pause_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			mePlayer.Pause();
+			monLecteur.Pause();
 		}
 
 		private void Stop_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = mediaPlayerIsPlaying;
+			e.CanExecute = enTrainDeJouer;
 		}
 
 		private void Stop_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			mePlayer.Stop();
-			mediaPlayerIsPlaying = false;
+			monLecteur.Stop();
+			enTrainDeJouer = false;
 		}
 
-		private void sliProgress_DragStarted(object sender, DragStartedEventArgs e)
+		private void sliderAvance_DragStarted(object sender, DragStartedEventArgs e)
 		{
-			userIsDraggingSlider = true;
+			modifSlider = true;
 		}
 
-		private void sliProgress_DragCompleted(object sender, DragCompletedEventArgs e)
+		private void sliderAvance_DragCompleted(object sender, DragCompletedEventArgs e)
 		{
-			userIsDraggingSlider = false;
-			mePlayer.Position = TimeSpan.FromSeconds(sliProgress.Value);
+			modifSlider = false;
+			monLecteur.Position = TimeSpan.FromSeconds(sliderAvance.Value);
 		}
 
-		private void sliProgress_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+		private void sliderAvance_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
-			lblProgressStatus.Text = TimeSpan.FromSeconds(sliProgress.Value).ToString(@"hh\:mm\:ss");
+			lblProgression.Text = String.Format("{0} / {1}", monLecteur.Position.ToString(@"hh\:mm\:ss"), monLecteur.NaturalDuration.TimeSpan.ToString(@"hh\:mm\:ss"));
 		}
 
 		private void Grid_MouseWheel(object sender, MouseWheelEventArgs e)
 		{
-			mePlayer.Volume += (e.Delta > 0) ? 0.1 : -0.1;
+			monLecteur.Volume += (e.Delta > 0) ? 0.1 : -0.1;
 		}
 	}
 }
