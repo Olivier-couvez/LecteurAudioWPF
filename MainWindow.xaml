@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfLecteurAudio"
         mc:Ignorable="d"
-        Title="Lecteur Multimedia" Height="450" Width="800">
+        Title="Lecteur Multimedia" Height="600" Width="940">
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Open" CanExecute="Open_CanExecute" Executed="Open_Executed" />
         <CommandBinding Command="MediaCommands.Play" CanExecute="Play_CanExecute" Executed="Play_Executed" />
@@ -13,30 +13,60 @@
         <CommandBinding Command="MediaCommands.Stop" CanExecute="Stop_CanExecute" Executed="Stop_Executed" />
     </Window.CommandBindings>
     <Grid MouseWheel="Grid_MouseWheel">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="34*"/>
+            <ColumnDefinition Width="13*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ToolBar Width="500" Height="100" HorizontalAlignment="Left">
+        <ToolBar Width="600" Height="100" HorizontalAlignment="Left" Grid.Row="0">
             <Button  Command="ApplicationCommands.Open">
-                <Image Source="/folder.png" Width="100" Height="100" />
+                <Image Source="/folder.png" Width="90" Height="90" ToolTip="Ouvrir un media"/>
             </Button>
             <Separator />
-            <Button Command="MediaCommands.Play" Width="100" Height="100">
+            <Button Command="MediaCommands.Play" Width="90" Height="90" ToolTip="Jouer le morceau">
                 <Image Source="/play.png"/>
             </Button>
-            <Button Command="MediaCommands.Pause" Width="100" Height="100">
+            <Separator />
+            <Button Command="MediaCommands.Pause" Width="90" Height="90" ToolTip="Mettre en Pause le morceau">
                 <Image Source="/pause.png" />
             </Button>
-            <Button Command="MediaCommands.Stop" Width="100" Height="100">
+            <Separator />
+            <Button Command="MediaCommands.Stop" Width="90" Height="90" ToolTip="Stopper le morceau">
                 <Image Source="/stop.png" />
             </Button>
+            <Separator />
+            <Button x:Name="ajoutTitre" Click="ajoutTitre_Click" Width="90" Height="90" ToolTip="Ajouter un titre à la play liste">
+                <Image Source="/Ajouttitre.png" />
+            </Button>
+            <Separator />
+            <Button x:Name="listTitre" Click="listTitre_Click" Width="90" Height="90" ToolTip="Play liste">
+                <Image Source="/Listetitre.png" />
+            </Button>
+            <Separator />
+        </ToolBar>
+        <ToolBar Width="330" Height="100" HorizontalAlignment="Left" Grid.Row="1" Margin="150,0,0,0">
+            <Button x:Name="precedent" Click="precedent_Click" Width="90" Height="90" ToolTip="Précédent">
+                <Image Source="/Backward.png"/>
+            </Button>
+            <Separator />
+            <Button x:Name="suivant" Click="suivant_Click" Width="90" Height="90" ToolTip="Suivant">
+                <Image Source="/Forward.png"/>
+            </Button>
+            <Separator />
+            <Button x:Name="Quitter" Click="Quitter_Click" Width="90" Height="90" ToolTip="Quitter">
+                <Image Source="/Quitter.png"/>
+            </Button>
+            <Separator />
         </ToolBar>
 
-        <MediaElement x:Name="monLecteur" Grid.Row="1" LoadedBehavior="Manual" Stretch="None" />
+        <MediaElement x:Name="monLecteur" Grid.Row="2" LoadedBehavior="Manual" Stretch="None" Grid.ColumnSpan="2" Margin="0,0,0,-62" Grid.RowSpan="2" />
 
-        <StatusBar Grid.Row="2">
+        <StatusBar Grid.Row="3" Grid.ColumnSpan="2" Margin="0,310,0,0" Grid.RowSpan="2">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
@@ -54,17 +84,20 @@
             <StatusBarItem/>
             <StatusBarItem Margin="0,0,5,0"/>
             <StatusBarItem Grid.Column="1" HorizontalContentAlignment="Stretch" Margin="20,0,0,0">
-                <Slider Name="sliderAvance" Thumb.DragStarted="sliderAvance_DragStarted"  Thumb.DragCompleted="sliderAvance_DragCompleted" ValueChanged="sliderAvance_ValueChanged" HorizontalAlignment="Left" Width="600" />
+                <Slider Name="sliderAvance" Thumb.DragStarted="sliderAvance_DragStarted"  Thumb.DragCompleted="sliderAvance_DragCompleted" ValueChanged="sliderAvance_ValueChanged" HorizontalAlignment="Left" Width="685" />
             </StatusBarItem>
             <StatusBarItem Grid.Column="2">
                 <ProgressBar Name="pbVolume" Width="50" Height="12" Maximum="1" Value="{Binding Volume, ElementName=monLecteur}" />
             </StatusBarItem>
         </StatusBar>
-        <Label x:Name="lblFichier" HorizontalAlignment="Left" Margin="515,10,0,0" VerticalAlignment="Top">
-            <Label Content="Fichier en  cours :"/>
+        <Label x:Name="lblFichier" Margin="650,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.ColumnSpan="2">
+            <Label Content="Morceau en  cours :"/>
         </Label>
-        <Label x:Name="lblChemin" Margin="515,50,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-            <Label Content="Nom du fichier"/>
+        <Label x:Name="lblChemin" Margin="650,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.ColumnSpan="2">
+            <Label Content="Nom du morceau"/>
+        </Label>
+        <Label x:Name="lblArtiste" Margin="650,65,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.ColumnSpan="2">
+            <Label Content="Artiste"/>
         </Label>
 
     </Grid>

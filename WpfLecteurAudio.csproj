@@ -7,16 +7,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Backward.png" />
     <None Remove="folder.png" />
+    <None Remove="Forward.png" />
+    <None Remove="Listetitre.png" />
+    <None Remove="Ajouttitre.png" />
     <None Remove="pause.png" />
     <None Remove="play.png" />
+    <None Remove="Quitter.png" />
     <None Remove="stop.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Backward.png" />
     <Resource Include="folder.png" />
+    <Resource Include="Forward.png" />
+    <Resource Include="Listetitre.png" />
+    <Resource Include="Ajouttitre.png" />
     <Resource Include="pause.png" />
     <Resource Include="play.png" />
+    <Resource Include="Quitter.png" />
     <Resource Include="stop.png" />
   </ItemGroup>
 

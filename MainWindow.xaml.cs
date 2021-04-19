@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using WpfLecteurAudio.Modeles;
 
 namespace WpfLecteurAudio
 {
@@ -23,16 +24,43 @@ namespace WpfLecteurAudio
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool enTrainDeJouer = false;
+		List<Tracks> listeMorceaux;
+		enregFichier sauvegarde;
+		int numeroPlayListe = 0 ;
+		ExecutedRoutedEventArgs test;
+		string chemin = "";
+
+		private bool enTrainDeJouer = false;
         private bool modifSlider = false;
         public MainWindow()
         {
             InitializeComponent();
+
+			// Lecture liste morceaux enregistrer
+
+			listeMorceaux = new List<Tracks>();
+			sauvegarde = new enregFichier();
+
+			if (sauvegarde.TestExistenceFichier() == true)
+			{
+				listeMorceaux = sauvegarde.recuperationListe();
+				string[] infoLigne = listeMorceaux.ElementAt(0).Getinfos();
+				monLecteur.Source = new Uri(infoLigne[3]);
+				numeroPlayListe = 0;
+				chemin = infoLigne[3];
+				string[] decoupe = chemin.Split('/');
+
+				lblChemin.Content = infoLigne[0];
+				lblArtiste.Content = infoLigne[1];
+			}
+
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
             timer.Start();
         }
+
+		public List<Tracks> ListeDesMorceaux { get => listeMorceaux; set => listeMorceaux = value; }
 		private void timer_Tick(object sender, EventArgs e)
 		{
 			if ((monLecteur.Source != null) && (monLecteur.NaturalDuration.HasTimeSpan) && (!modifSlider))
@@ -40,6 +68,25 @@ namespace WpfLecteurAudio
 				sliderAvance.Minimum = 0;
 				sliderAvance.Maximum = monLecteur.NaturalDuration.TimeSpan.TotalSeconds;
 				sliderAvance.Value = monLecteur.Position.TotalSeconds;
+				if (monLecteur.Position == monLecteur.NaturalDuration.TimeSpan)
+                {
+					if (numeroPlayListe <= listeMorceaux.Count - 2)
+					{
+						numeroPlayListe++;
+						string[] infoLigne = listeMorceaux.ElementAt(numeroPlayListe).Getinfos();
+						monLecteur.Source = new Uri(infoLigne[3]);
+						chemin = infoLigne[3];
+						string[] decoupe = chemin.Split('/');
+
+						lblChemin.Content = infoLigne[0];
+						lblArtiste.Content = infoLigne[1];
+						Play_Executed(sender, test);
+					}
+					else
+					{
+						MessageBox.Show("Fin de la Liste");
+					}
+				}
 			}
 		}
 
@@ -50,7 +97,7 @@ namespace WpfLecteurAudio
 
 		private void Open_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			string chemin = "";
+
 			OpenFileDialog openFileDialog = new OpenFileDialog();
 			openFileDialog.Filter = "Media files (*.mp3;*.mpg;*.mpeg)|*.mp3;*.mpg;*.mpeg|All files (*.*)|*.*";
 			if (openFileDialog.ShowDialog() == true)
@@ -116,5 +163,69 @@ namespace WpfLecteurAudio
 		{
 			monLecteur.Volume += (e.Delta > 0) ? 0.1 : -0.1;
 		}
-	}
+
+        private void ajoutTitre_Click(object sender, RoutedEventArgs e)
+        {
+			bool fermeture;
+			AjoutTitre FenAjoutTitre = new AjoutTitre();
+			fermeture = (bool)FenAjoutTitre.ShowDialog();
+			if (sauvegarde.TestExistenceFichier() == true)
+			{
+				listeMorceaux = sauvegarde.recuperationListe();
+			}
+		}
+
+        private void listTitre_Click(object sender, RoutedEventArgs e)
+        {
+			bool fermeture;
+			ListeTitre FenListTitre = new ListeTitre();
+			fermeture = (bool)FenListTitre.ShowDialog();
+		}
+
+        private void precedent_Click(object sender, RoutedEventArgs e)
+        {
+			if (numeroPlayListe > 0)
+            {
+				numeroPlayListe--;
+				string[] infoLigne = listeMorceaux.ElementAt(numeroPlayListe).Getinfos();
+				monLecteur.Source = new Uri(infoLigne[3]);
+				chemin = infoLigne[3];
+				string[] decoupe = chemin.Split('/');
+
+				lblChemin.Content = infoLigne[0];
+				lblArtiste.Content = infoLigne[1];
+				Play_Executed(sender, test);
+			}
+            else
+            {
+				MessageBox.Show("Début de la Liste");
+            }
+
+		}
+
+        private void suivant_Click(object sender, RoutedEventArgs e)
+        {
+			if (numeroPlayListe <= listeMorceaux.Count-2)
+			{
+				numeroPlayListe++;
+				string[] infoLigne = listeMorceaux.ElementAt(numeroPlayListe).Getinfos();
+				monLecteur.Source = new Uri(infoLigne[3]);
+				chemin = infoLigne[3];
+				string[] decoupe = chemin.Split('/');
+
+				lblChemin.Content = infoLigne[0];
+				lblArtiste.Content = infoLigne[1];
+				Play_Executed(sender, test);
+			}
+			else
+			{
+				MessageBox.Show("Fin de la Liste");
+			}
+		}
+
+        private void Quitter_Click(object sender, RoutedEventArgs e)
+        {
+			this.Close();
+        }
+    }
 }
