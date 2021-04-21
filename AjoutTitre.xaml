@@ -16,6 +16,7 @@
         <Label Content="Ajout d'un Titre" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Century Gothic" FontSize="36"/>
         <Button x:Name="boutonAjouter" Content="Ajouter" Click="boutonAjouter_Click" HorizontalAlignment="Left" Margin="475,374,0,0" VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="16" FontWeight="Bold" Height="34" Width="95"/>
         <Button x:Name="boutonQuitter" Content="Quitter" Click="boutonQuitter_Click" HorizontalAlignment="Left" Margin="650,374,0,0" VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="16" FontWeight="Bold" Height="34" Width="95"/>
+        <Button x:Name="boutonRechercheFichier" Content="Rechercher" Click="boutonRechercheFichier_Click" HorizontalAlignment="Left" Margin="318,374,0,0" VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="16" FontWeight="Bold" Height="34" Width="107"/>
 
     </Grid>
 </Window>

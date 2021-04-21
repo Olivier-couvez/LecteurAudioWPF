@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfLecteurAudio"
         xmlns:Collections="clr-namespace:System.Collections;assembly=System.Runtime" x:Class="WpfLecteurAudio.ListeTitre"
         mc:Ignorable="d"
-        Title="Play Liste" Height="450" Width="800">
+        Title="Play Liste" Height="450" Width="850">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -18,7 +18,7 @@
         <ListView x:Name="listViewTitre" Margin="10,19,10,10" FontFamily="Century Gothic" Grid.Row="1">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Titre" Width="195" DisplayMemberBinding="{Binding Titre}">
+                    <GridViewColumn Header="Titre" Width="185" DisplayMemberBinding="{Binding Titre}">
                         <GridViewColumn.CellTemplate>
                         <DataTemplate>
                             <Border x:Name="MoinsBorder"  Background="Red" BorderBrush="Green" BorderThickness="1" Width="18" Height="18" CornerRadius="10">
@@ -29,7 +29,7 @@
                         </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Artiste" Width="180" DisplayMemberBinding="{Binding Artiste}">
+                    <GridViewColumn Header="Artiste" Width="175" DisplayMemberBinding="{Binding Artiste}">
                         <GridViewColumn.CellTemplate>
                         <DataTemplate>
                             <Border x:Name="MoinsBorder"  Background="Red" BorderBrush="Green" BorderThickness="1" Width="18" Height="18" CornerRadius="10">
@@ -40,7 +40,7 @@
                         </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Album" Width="180" DisplayMemberBinding="{Binding Album}">
+                    <GridViewColumn Header="Album" Width="175" DisplayMemberBinding="{Binding Album}">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
                             <Border x:Name="MoinsBorder"  Background="Red" BorderBrush="Green" BorderThickness="1" Width="18" Height="18" CornerRadius="10">
@@ -51,7 +51,7 @@
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Chemin" Width="200" DisplayMemberBinding="{Binding Chemin}">
+                    <GridViewColumn Header="Chemin" Width="210" DisplayMemberBinding="{Binding Chemin}">
                   
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
