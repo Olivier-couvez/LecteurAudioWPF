@@ -37,8 +37,6 @@ namespace WpfLecteurAudio
             {
                 listeMorceaux = sauvegarde.recuperationListe();
             }
-            
-
         }
 
        
@@ -99,12 +97,23 @@ namespace WpfLecteurAudio
 
         private void boutonAjouter_Click(object sender, RoutedEventArgs e)
         {
+            if (chemin != "")
+            { 
             nouveauMorceau = new Tracks(textboxTitre.Text, textboxArtiste.Text, textboxAlbum.Text, chemin);
             listeMorceaux.Add(nouveauMorceau);
             if (sauvegarde.sauveListe(listeMorceaux) == true)
                 MessageBox.Show("Les données ont été enregistrées");
             else
                 MessageBox.Show("Une erreur est survenue, les données n'ont pas été enregistrées");
+            }
+            else
+            {
+                MessageBox.Show("Vous n'avez pas choisi de morceau !");
+            }
+            chemin = "";
+            textboxTitre.Text = "";
+            textboxArtiste.Text = "";
+            textboxAlbum.Text = "";
         }
     }
 }
