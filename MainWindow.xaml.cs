@@ -32,6 +32,7 @@ namespace WpfLecteurAudio
 
 		private bool enTrainDeJouer = false;
         private bool modifSlider = false;
+		private bool enPause = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -46,6 +47,7 @@ namespace WpfLecteurAudio
 				listeMorceaux = sauvegarde.recuperationListe();
 				string[] infoLigne = listeMorceaux.ElementAt(0).Getinfos();
 				monLecteur.Source = new Uri(infoLigne[3]);
+				
 				numeroPlayListe = 0;
 				chemin = infoLigne[3];
 				string[] decoupe = chemin.Split('/');
@@ -227,5 +229,24 @@ namespace WpfLecteurAudio
         {
 			this.Close();
         }
+
+        private void monLecteur_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+			if (enPause == true)
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+
+        private void MediaPlayer_Click(object sender, RoutedEventArgs e)
+        {
+			bool fermeture;
+			MediaSourceExo FenMediaSource = new MediaSourceExo();
+			fermeture = (bool)FenMediaSource.ShowDialog();
+		}
     }
 }

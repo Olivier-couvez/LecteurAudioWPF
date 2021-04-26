@@ -49,7 +49,7 @@
             </Button>
             <Separator />
         </ToolBar>
-        <ToolBar Width="330" Height="100" HorizontalAlignment="Left" Grid.Row="1" Margin="150,0,0,0">
+        <ToolBar Width="400" Height="100" HorizontalAlignment="Left" Grid.Row="1" Margin="150,0,0,49" Grid.RowSpan="2">
             <Button x:Name="precedent" Click="precedent_Click" Width="90" Height="90" ToolTip="Précédent">
                 <Image Source="/Backward.png"/>
             </Button>
@@ -61,10 +61,13 @@
             <Button x:Name="Quitter" Click="Quitter_Click" Width="90" Height="90" ToolTip="Quitter">
                 <Image Source="/Quitter.png"/>
             </Button>
+            <Button x:Name="MediaPlayer" Click="MediaPlayer_Click" Width="90" Height="90" ToolTip="Quitter">
+                <Image Source="/Quitter.png"/>
+            </Button>
             <Separator />
         </ToolBar>
 
-        <MediaElement x:Name="monLecteur" Grid.Row="2" LoadedBehavior="Manual" Stretch="None" Grid.ColumnSpan="2" Margin="0,0,0,-62" Grid.RowSpan="2" />
+        <MediaElement x:Name="monLecteur" Grid.Row="2" LoadedBehavior="Manual" Stretch="Fill" Grid.ColumnSpan="2" Margin="0,0,0,-62" Grid.RowSpan="2" MouseLeftButtonDown="monLecteur_MouseLeftButtonDown"/>
 
         <StatusBar Grid.Row="3" Grid.ColumnSpan="2" Margin="0,310,0,0" Grid.RowSpan="2">
             <StatusBar.ItemsPanel>
