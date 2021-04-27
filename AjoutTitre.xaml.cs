@@ -15,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfLecteurAudio.Modeles;
+using ATL.AudioData;
+using ATL;
 
 namespace WpfLecteurAudio
 {
@@ -82,10 +84,10 @@ namespace WpfLecteurAudio
                 }
                 else
                 {
-                    MessageBox.Show("Pas de TAG mp3 dans ce fichier !");
-                    decoupe = chemin.Split('\\');
-                    decoupe = decoupe[decoupe.Length - 1].Split('.');
-                    textboxTitre.Text = decoupe[0];
+                    Track theTrack = new Track(fileName);
+                    textboxTitre.Text = theTrack.Title;
+                    textboxArtiste.Text = theTrack.Artist;
+                    textboxAlbum.Text = theTrack.Album;
                 }
             }
         }

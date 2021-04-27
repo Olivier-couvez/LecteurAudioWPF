@@ -13,9 +13,6 @@
     <Compile Update="ListeTitre.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="MediaSourceExo.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="AjoutTitre.xaml">
@@ -25,9 +22,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="MediaSourceExo.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

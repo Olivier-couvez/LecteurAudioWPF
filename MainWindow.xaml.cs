@@ -245,8 +245,6 @@ namespace WpfLecteurAudio
         private void MediaPlayer_Click(object sender, RoutedEventArgs e)
         {
 			bool fermeture;
-			MediaSourceExo FenMediaSource = new MediaSourceExo();
-			fermeture = (bool)FenMediaSource.ShowDialog();
 		}
     }
 }
