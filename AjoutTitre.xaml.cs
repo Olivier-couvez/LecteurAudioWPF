@@ -30,6 +30,7 @@ namespace WpfLecteurAudio
         Tracks nouveauMorceau;
         string chemin = "";
         string[] decoupe;
+        Track theTrack;
         public AjoutTitre()
         {
             InitializeComponent();
@@ -45,7 +46,8 @@ namespace WpfLecteurAudio
         private void boutonRechercheFichier_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Media files (*.mp3;*.mpg;*.mpeg)|*.mp3;*.mpg;*.mpeg|All files (*.*)|*.*";
+            openFileDialog.Filter = "Media files (*.mp3;*.mpg;*.mpeg;*.avi;*.mkv;*.ogg;*.mp4;*.m4a;*.ac3;*.flac;*.mp1;*.mp2;*.psf;*.s3m;*.tak;*.tta;*.wav;*.vgm;*.wma;*.asf)|" +
+                "*.mp3;*.mpg;*.mpeg;*.avi;*.mkv;*.ogg;*.mp4;*.m4a;*.ac3;*.flac;*.mp1;*.mp2;*.psf;*.s3m;*.tak;*.tta;*.wav;*.vgm;*.wma;*.asf|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
             {
                 chemin = openFileDialog.FileName;
@@ -80,11 +82,15 @@ namespace WpfLecteurAudio
                     contentTexte = tag.artistToString().Trim(new Char[] { '\r', '\n' });
                     textboxArtiste.Text = contentTexte;
                     contentTexte = tag.albumToString().Trim(new Char[] { '\r', '\n' });
-                    textboxAlbum.Text = contentTexte;         
+                    textboxAlbum.Text = contentTexte;
+                    theTrack = new ATL.Track(chemin);
+                    textboxArtiste.Text = theTrack.Artist;
+                    textboxTitre.Text = theTrack.Title;
+                    textboxAlbum.Text = theTrack.Album;
                 }
                 else
                 {
-                    Track theTrack = new Track(fileName);
+                    theTrack = new Track(fileName);
                     textboxTitre.Text = theTrack.Title;
                     textboxArtiste.Text = theTrack.Artist;
                     textboxAlbum.Text = theTrack.Album;

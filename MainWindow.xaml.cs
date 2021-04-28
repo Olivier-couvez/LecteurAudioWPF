@@ -16,6 +16,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using WpfLecteurAudio.Modeles;
+using ATL.AudioData;
+using ATL;
 
 namespace WpfLecteurAudio
 {
@@ -29,6 +31,7 @@ namespace WpfLecteurAudio
 		int numeroPlayListe = 0 ;
 		ExecutedRoutedEventArgs test;
 		string chemin = "";
+		ATL.Track theTrack;
 
 		private bool enTrainDeJouer = false;
         private bool modifSlider = false;
@@ -52,8 +55,41 @@ namespace WpfLecteurAudio
 				chemin = infoLigne[3];
 				string[] decoupe = chemin.Split('/');
 
-				lblChemin.Content = infoLigne[0];
-				lblArtiste.Content = infoLigne[1];
+				theTrack = new ATL.Track(chemin);
+				lblArtiste.Content = theTrack.Artist;
+				lblChemin.Content = theTrack.Title;
+				lblAlbum.Content = theTrack.Album;
+				if (theTrack.Year == 0)
+				{
+					lblAnnee.Content = "";
+				}
+				else
+				{
+					lblAnnee.Content = Convert.ToString(theTrack.Year);
+				}
+
+				lblGenre.Content = theTrack.Genre;
+				if (theTrack.TrackTotal == 0)
+				{
+					lblpiste.Content = theTrack.TrackNumber;
+				}
+				else
+				{
+					lblpiste.Content = theTrack.TrackNumber + " / " + theTrack.TrackTotal;
+				}
+				lblCompositeur.Content = theTrack.Composer;
+				int heureDuree = theTrack.Duration / 3600;
+				int minuteDuree = (theTrack.Duration - (heureDuree * 3600)) / 60;
+				int secDuree = theTrack.Duration - (heureDuree * 3600) - (minuteDuree * 60);
+				if (heureDuree == 0)
+				{
+					lblDuree.Content = minuteDuree + " m " + secDuree + " s";
+				}
+				else
+				{
+					lblDuree.Content = heureDuree + " h " + minuteDuree + " m " + secDuree + " s";
+				}
+				lblComment.Content = theTrack.Comment;
 			}
 
             DispatcherTimer timer = new DispatcherTimer();
@@ -78,10 +114,47 @@ namespace WpfLecteurAudio
 						string[] infoLigne = listeMorceaux.ElementAt(numeroPlayListe).Getinfos();
 						monLecteur.Source = new Uri(infoLigne[3]);
 						chemin = infoLigne[3];
-						string[] decoupe = chemin.Split('/');
+						/*
+						 string[] decoupe = chemin.Split('/');
+						 OU
+						 NomFichier = System.IO.Path.GetFileNameWithoutExtension(file);
+						*/
 
-						lblChemin.Content = infoLigne[0];
-						lblArtiste.Content = infoLigne[1];
+						theTrack = new ATL.Track(chemin);
+						lblArtiste.Content = theTrack.Artist;
+						lblChemin.Content = theTrack.Title;
+						lblAlbum.Content = theTrack.Album;
+						if (theTrack.Year == 0)
+						{
+							lblAnnee.Content = "";
+						}
+						else
+						{
+							lblAnnee.Content = Convert.ToString(theTrack.Year);
+						}
+
+						lblGenre.Content = theTrack.Genre;
+						if (theTrack.TrackTotal == 0)
+						{
+							lblpiste.Content = theTrack.TrackNumber;
+						}
+						else
+						{
+							lblpiste.Content = theTrack.TrackNumber + " / " + theTrack.TrackTotal;
+						}
+						lblCompositeur.Content = theTrack.Composer;
+						int heureDuree = theTrack.Duration / 3600;
+						int minuteDuree = (theTrack.Duration - (heureDuree * 3600)) / 60;
+						int secDuree = theTrack.Duration - (heureDuree * 3600) - (minuteDuree * 60);
+						if (heureDuree == 0)
+						{
+							lblDuree.Content = minuteDuree + " m " + secDuree + " s";
+						}
+						else
+						{
+							lblDuree.Content = heureDuree + " h " + minuteDuree + " m " + secDuree + " s";
+						}
+						lblComment.Content = theTrack.Comment;
 						Play_Executed(sender, test);
 					}
 					else
@@ -101,15 +174,51 @@ namespace WpfLecteurAudio
 		{
 
 			OpenFileDialog openFileDialog = new OpenFileDialog();
-			openFileDialog.Filter = "Media files (*.mp3;*.mpg;*.mpeg)|*.mp3;*.mpg;*.mpeg|All files (*.*)|*.*";
+			openFileDialog.Filter = "Media files (*.mp3;*.mpg;*.mpeg;*.avi;*.mkv;*.ogg;*.mp4;*.m4a;*.ac3;*.flac;*.mp1;*.mp2;*.psf;*.s3m;*.tak;*.tta;*.wav;*.vgm;*.wma;*.asf)|" +
+	"*.mp3;*.mpg;*.mpeg;*.avi;*.mkv;*.ogg;*.mp4;*.m4a;*.ac3;*.flac;*.mp1;*.mp2;*.psf;*.s3m;*.tak;*.tta;*.wav;*.vgm;*.wma;*.asf|All files (*.*)|*.*";
 			if (openFileDialog.ShowDialog() == true)
 			{
-				chemin = Convert.ToString(new Uri(openFileDialog.FileName));
+				chemin = openFileDialog.FileName;
 				string[] decoupe = chemin.Split('/');
 
-				lblChemin.Content = decoupe[decoupe.Length-1];
-
 				monLecteur.Source = new Uri(openFileDialog.FileName);
+
+				theTrack = new ATL.Track(chemin);
+				lblArtiste.Content = theTrack.Artist;
+				lblChemin.Content = theTrack.Title;
+				lblAlbum.Content = theTrack.Album;
+				if (theTrack.Year == 0)
+                {
+					lblAnnee.Content = "";
+				}
+				else
+                {
+					lblAnnee.Content = Convert.ToString(theTrack.Year);
+				}
+
+				lblGenre.Content = theTrack.Genre;
+				if(theTrack.TrackTotal == 0)
+                {
+					lblpiste.Content = theTrack.TrackNumber ;
+				}
+                else
+                {
+					lblpiste.Content = theTrack.TrackNumber + " / " + theTrack.TrackTotal;
+				}
+				lblCompositeur.Content = theTrack.Composer;
+				int heureDuree = theTrack.Duration / 3600;
+				int minuteDuree = (theTrack.Duration - (heureDuree * 3600)) / 60;
+				int secDuree = theTrack.Duration - (heureDuree * 3600) - (minuteDuree * 60);
+				if (heureDuree == 0)
+                {
+					lblDuree.Content = minuteDuree + " m " + secDuree + " s";
+				}
+                else
+                {
+					lblDuree.Content = heureDuree + " h " + minuteDuree + " m " + secDuree + " s";
+				}				
+				lblComment.Content = theTrack.Comment;
+
 			}
 		}
 
@@ -193,9 +302,41 @@ namespace WpfLecteurAudio
 				monLecteur.Source = new Uri(infoLigne[3]);
 				chemin = infoLigne[3];
 				string[] decoupe = chemin.Split('/');
+				theTrack = new ATL.Track(chemin);
+				lblArtiste.Content = theTrack.Artist;
+				lblChemin.Content = theTrack.Title;
+				lblAlbum.Content = theTrack.Album;
+				if (theTrack.Year == 0)
+				{
+					lblAnnee.Content = "";
+				}
+				else
+				{
+					lblAnnee.Content = Convert.ToString(theTrack.Year);
+				}
 
-				lblChemin.Content = infoLigne[0];
-				lblArtiste.Content = infoLigne[1];
+				lblGenre.Content = theTrack.Genre;
+				if (theTrack.TrackTotal == 0)
+				{
+					lblpiste.Content = theTrack.TrackNumber;
+				}
+				else
+				{
+					lblpiste.Content = theTrack.TrackNumber + " / " + theTrack.TrackTotal;
+				}
+				lblCompositeur.Content = theTrack.Composer;
+				int heureDuree = theTrack.Duration / 3600;
+				int minuteDuree = (theTrack.Duration - (heureDuree * 3600)) / 60;
+				int secDuree = theTrack.Duration - (heureDuree * 3600) - (minuteDuree * 60);
+				if (heureDuree == 0)
+				{
+					lblDuree.Content = minuteDuree + " m " + secDuree + " s";
+				}
+				else
+				{
+					lblDuree.Content = heureDuree + " h " + minuteDuree + " m " + secDuree + " s";
+				}
+				lblComment.Content = theTrack.Comment;
 				Play_Executed(sender, test);
 			}
             else
@@ -214,9 +355,41 @@ namespace WpfLecteurAudio
 				monLecteur.Source = new Uri(infoLigne[3]);
 				chemin = infoLigne[3];
 				string[] decoupe = chemin.Split('/');
+				theTrack = new ATL.Track(chemin);
+				lblArtiste.Content = theTrack.Artist;
+				lblChemin.Content = theTrack.Title;
+				lblAlbum.Content = theTrack.Album;
+				if (theTrack.Year == 0)
+				{
+					lblAnnee.Content = "";
+				}
+				else
+				{
+					lblAnnee.Content = Convert.ToString(theTrack.Year);
+				}
 
-				lblChemin.Content = infoLigne[0];
-				lblArtiste.Content = infoLigne[1];
+				lblGenre.Content = theTrack.Genre;
+				if (theTrack.TrackTotal == 0)
+				{
+					lblpiste.Content = theTrack.TrackNumber;
+				}
+				else
+				{
+					lblpiste.Content = theTrack.TrackNumber + " / " + theTrack.TrackTotal;
+				}
+				lblCompositeur.Content = theTrack.Composer;
+				int heureDuree = theTrack.Duration / 3600;
+				int minuteDuree = (theTrack.Duration - (heureDuree * 3600)) / 60;
+				int secDuree = theTrack.Duration - (heureDuree * 3600) - (minuteDuree * 60);
+				if (heureDuree == 0)
+				{
+					lblDuree.Content = minuteDuree + " m " + secDuree + " s";
+				}
+				else
+				{
+					lblDuree.Content = heureDuree + " h " + minuteDuree + " m " + secDuree + " s";
+				}
+				lblComment.Content = theTrack.Comment;
 				Play_Executed(sender, test);
 			}
 			else

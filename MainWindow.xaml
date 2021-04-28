@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfLecteurAudio"
         mc:Ignorable="d"
-        Title="Lecteur Multimedia" Height="600" Width="940">
+        Title="Lecteur Multimedia" Height="699" Width="994">
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Open" CanExecute="Open_CanExecute" Executed="Open_Executed" />
         <CommandBinding Command="MediaCommands.Play" CanExecute="Play_CanExecute" Executed="Play_Executed" />
@@ -19,11 +19,12 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" MinHeight="2.04"/>
+            <RowDefinition />
+            <RowDefinition Height="0*"/>
+            <RowDefinition Height="Auto" MinHeight="449" />
         </Grid.RowDefinitions>
-        <ToolBar Width="600" Height="100" HorizontalAlignment="Left" Grid.Row="0">
+        <ToolBar Width="600" HorizontalAlignment="Left" Grid.Row="0" Margin="0,0,0,1">
             <Button  Command="ApplicationCommands.Open">
                 <Image Source="/folder.png" Width="90" Height="90" ToolTip="Ouvrir un media"/>
             </Button>
@@ -49,27 +50,24 @@
             </Button>
             <Separator />
         </ToolBar>
-        <ToolBar Width="400" Height="100" HorizontalAlignment="Left" Grid.Row="1" Margin="150,0,0,49" Grid.RowSpan="2">
-            <Button x:Name="precedent" Click="precedent_Click" Width="90" Height="90" ToolTip="Précédent">
+        <ToolBar Width="400" HorizontalAlignment="Left" Margin="0,100,0,19" Grid.RowSpan="3">
+            <Button x:Name="precedent" Click="precedent_Click" Width="100" Height="100" ToolTip="Précédent">
                 <Image Source="/Backward.png"/>
             </Button>
             <Separator />
-            <Button x:Name="suivant" Click="suivant_Click" Width="90" Height="90" ToolTip="Suivant">
+            <Button x:Name="suivant" Click="suivant_Click" Width="90" Height="100" ToolTip="Suivant">
                 <Image Source="/Forward.png"/>
             </Button>
             <Separator />
-            <Button x:Name="Quitter" Click="Quitter_Click" Width="90" Height="90" ToolTip="Quitter">
-                <Image Source="/Quitter.png"/>
-            </Button>
-            <Button x:Name="MediaPlayer" Click="MediaPlayer_Click" Width="90" Height="90" ToolTip="Quitter">
+            <Button x:Name="Quitter" Click="Quitter_Click" Width="90" Height="100" ToolTip="Quitter">
                 <Image Source="/Quitter.png"/>
             </Button>
             <Separator />
         </ToolBar>
 
-        <MediaElement x:Name="monLecteur" Grid.Row="2" LoadedBehavior="Manual" Stretch="Fill" Grid.ColumnSpan="2" Margin="0,0,0,-62" Grid.RowSpan="2" MouseLeftButtonDown="monLecteur_MouseLeftButtonDown"/>
+        <MediaElement x:Name="monLecteur" Grid.Row="2" LoadedBehavior="Manual" Stretch="Fill" Grid.ColumnSpan="2" Margin="4,124,6,100" MouseLeftButtonDown="monLecteur_MouseLeftButtonDown" Grid.RowSpan="3"/>
 
-        <StatusBar Grid.Row="3" Grid.ColumnSpan="2" Margin="0,310,0,0" Grid.RowSpan="2">
+        <StatusBar Grid.Row="4" Grid.ColumnSpan="2" Margin="0,375,0,0">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
@@ -85,23 +83,31 @@
                 <TextBlock x:Name="lblProgression"><Run Text="00:00:00 / 00:00:00"/></TextBlock>
             </StatusBarItem>
             <StatusBarItem/>
-            <StatusBarItem Margin="0,0,5,0"/>
-            <StatusBarItem Grid.Column="1" HorizontalContentAlignment="Stretch" Margin="20,0,0,0">
+            <StatusBarItem Margin="0,20,5,0"/>
+            <StatusBarItem Grid.Column="1" HorizontalContentAlignment="Stretch" Margin="20,55,0,0">
                 <Slider Name="sliderAvance" Thumb.DragStarted="sliderAvance_DragStarted"  Thumb.DragCompleted="sliderAvance_DragCompleted" ValueChanged="sliderAvance_ValueChanged" HorizontalAlignment="Left" Width="685" />
             </StatusBarItem>
             <StatusBarItem Grid.Column="2">
                 <ProgressBar Name="pbVolume" Width="50" Height="12" Maximum="1" Value="{Binding Volume, ElementName=monLecteur}" />
             </StatusBarItem>
         </StatusBar>
-        <Label x:Name="lblFichier" Margin="650,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.ColumnSpan="2">
-            <Label Content="Morceau en  cours :" FontFamily="Century Gothic"/>
-        </Label>
-        <Label x:Name="lblChemin" Margin="650,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.ColumnSpan="2">
-            <Label Content="Nom du morceau"/>
-        </Label>
-        <Label x:Name="lblArtiste" Margin="650,65,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.ColumnSpan="2">
-            <Label Content="Artiste"/>
-        </Label>
+
+        <Label x:Name="lblAnnee" Content="" HorizontalAlignment="Left" Margin="470,4,0,0" Grid.Row="2" VerticalAlignment="Top" FontFamily="Century Gothic" Width="70" Height="25"/>
+        <Label x:Name="lblGenre" Content="" HorizontalAlignment="Left" Margin="470,33,0,0" Grid.Row="2" VerticalAlignment="Top" FontFamily="Century Gothic" Width="100" Height="25"/>
+        <Label x:Name="lblpiste" Content="" HorizontalAlignment="Left" Margin="470,63,0,0" Grid.Row="2" VerticalAlignment="Top" FontFamily="Century Gothic" Width="100" Height="25"/>
+        <Label x:Name="lblCompositeur" Content="" HorizontalAlignment="Left" Margin="5,4,0,0" Grid.Row="2" VerticalAlignment="Top" FontFamily="Century Gothic" Width="245" Grid.Column="1" Height="25"/>
+        <Label x:Name="lblDuree" Content="" HorizontalAlignment="Left" Margin="5,33,0,0" Grid.Row="2" VerticalAlignment="Top" FontFamily="Century Gothic" Width="98" Grid.Column="1" Height="25"/>
+        <Label x:Name="lblComment" Content="" HorizontalAlignment="Left" Margin="5,63,0,0" Grid.Row="2" VerticalAlignment="Top" FontFamily="Century Gothic" Width="245" Grid.Column="1" Height="25"/>
+        <Label x:Name="lblAn" Content="Année : " HorizontalAlignment="Left" Margin="410,4,0,0" Grid.Row="2" VerticalAlignment="Top" FontFamily="Century Gothic" Width="60" Height="25"/>
+        <Label x:Name="lblGe" Content="Genre : " HorizontalAlignment="Left" Margin="410,33,0,0" Grid.Row="2" VerticalAlignment="Top" FontFamily="Century Gothic" Width="60" Height="25"/>
+        <Label x:Name="lblpi" Content="Piste : " HorizontalAlignment="Left" Margin="410,63,0,0" Grid.Row="2" VerticalAlignment="Top" FontFamily="Century Gothic" Width="60" Height="25"/>
+        <Label x:Name="lblComp" Content="Compositeur : " HorizontalAlignment="Left" Margin="582,4,0,0" Grid.Row="2" VerticalAlignment="Top" FontFamily="Century Gothic" Width="98" Height="25"/>
+        <Label x:Name="lblDu" Content="Durée : " HorizontalAlignment="Left" Margin="582,33,0,0" Grid.Row="2" VerticalAlignment="Top" FontFamily="Century Gothic" Width="58" Height="25"/>
+        <Label x:Name="lblComt" Content="Commentaires : " HorizontalAlignment="Left" Margin="582,63,0,0" Grid.Row="2" VerticalAlignment="Top" FontFamily="Century Gothic" Width="103" Grid.ColumnSpan="2" Height="25"/>
+
+        <Label x:Name="lblChemin" Content="Titre" HorizontalAlignment="Left" Margin="611,0,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="319" FontFamily="Century Gothic" FontSize="16" FontWeight="Bold" Height="30"/>
+        <Label x:Name="lblArtiste" Content="Artiste" HorizontalAlignment="Left" Margin="611,30,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="319" FontFamily="Century Gothic" FontSize="16" FontWeight="Bold" Height="30"/>
+        <Label x:Name="lblAlbum" Content="Album" HorizontalAlignment="Left" Margin="611,65,0,0" VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="14" FontWeight="Bold" Grid.ColumnSpan="2" Width="319" Height="27"/>
 
     </Grid>
 </Window>
